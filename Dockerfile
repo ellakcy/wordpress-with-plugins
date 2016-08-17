@@ -15,3 +15,4 @@ COPY install-plugins.sh /usr/bin/install-plugins.sh
 RUN chmod +x /usr/bin/install-plugins.sh
 
 ENTRYPOINT /usr/bin/install-plugins.sh
+CMD ["apache2-foreground"]

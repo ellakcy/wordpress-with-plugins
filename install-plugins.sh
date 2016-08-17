@@ -45,4 +45,16 @@ if [ -z "$WORDPRESS_DB_PASSWORD" ]; then
   exit 1
 fi
 
-wp --path=/var/www/html --allow-root core config --dbname=${WORDPRESS_DB_NAME} --dbpass=${WORDPRESS_DB_PASSWORD} --dbuser=${WORDPRESS_DB_USER} --dbhost=${WORDPRESS_DB_HOST}
+if [ ! -e wp-config.php ]; then
+  echo "Generatiing wp-config"
+  wp --path=/var/www/html --allow-root core config --dbname=${WORDPRESS_DB_NAME} --dbpass=${WORDPRESS_DB_PASSWORD} --dbuser=${WORDPRESS_DB_USER} --dbhost=${WORDPRESS_DB_HOST} <<PHP
+  // If we're behind a proxy server and using HTTPS, we need to alert Wordpress of that fact
+  // see also http://codex.wordpress.org/Administration_Over_SSL#Using_a_Reverse_Proxy
+  if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+  	$_SERVER['HTTPS'] = 'on';
+  }
+PHP
+  chown www-data:www-data wp-config.php
+fi
+
+exec "$@"
