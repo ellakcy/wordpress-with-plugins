@@ -1,18 +1,17 @@
-FROM wordpress:fpm
+FROM wordpress
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update &&\
-    apt-get install -y unzip &&\
+    apt-get install -y unzip mysql-client &&\
     rm -rf /var/cache/apt/*
 
-ENV PLUGIN_URL https://downloads.wordpress.org/plugin
 
-ENV PIWIK_PLUGIN_VERSION 1.0.9
-RUN curl -o /tmp/wp-piwik.${PIWIK_PLUGIN_VERSION}.zip  ${PLUGIN_URL}/wp-piwik.${PIWIK_PLUGIN_VERSION}.zip &&\
-    unzip /tmp/wp-piwik.${PIWIK_PLUGIN_VERSION}.zip -d /tmp &&\
-    chown www-data:www-data /tmp/wp-piwik &&\
-    mv /tmp/wp-piwik /usr/src/wordpress/wp-content/plugins/&&\
-    find /usr/src/wordpress/wp-content/plugins/wp-piwik -type d -exec chmod 755 {} + &&\
-    find /usr/src/wordpress/wp-content/plugins/wp-piwik -type d -exec chmod 633 {} + &&\  
-    ls -l  /usr/src/wordpress/wp-content/plugins/
+RUN cd && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar&&\
+    chmod +x wp-cli.phar&&\
+    mv wp-cli.phar /usr/local/bin/wp
+
+COPY install-plugins.sh /usr/bin/install-plugins.sh
+RUN chmod +x /usr/bin/install-plugins.sh
+
+ENTRYPOINT /usr/bin/install-plugins.sh
