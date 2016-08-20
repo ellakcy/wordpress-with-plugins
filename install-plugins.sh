@@ -2,4 +2,5 @@
 
 
 
+#DO NOT REMOVE THIS LINE ALWAYS MUST BE ON THE END
 /usr/sbin/apache2ctl -D FOREGROUND
