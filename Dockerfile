@@ -14,5 +14,8 @@ RUN cd && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/
 COPY install-plugins.sh /usr/bin/install-plugins.sh
 RUN chmod +x /usr/bin/install-plugins.sh
 
-ENTRYPOINT /usr/bin/install-plugins.sh
-CMD ["apache2-foreground"]
+COPY docker-entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["/usr/bin/install-plugins.sh"]
