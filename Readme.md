@@ -20,3 +20,5 @@ Also supports these extra enviromental variables:
 - WORDPRESS_ADMIN_EMAIL (default:admin@example.com) The administrator email. (Recomended to change.)
 - WORDPRESS_URL (default: localhost) Your site's url
 - WORDPRESS_TITLE (default: 'My localhost site') The title to be displayed when generating the site.
+
+Also inherits all the enviromental varialbes from the original wordpress docker image: https://hub.docker.com/_/wordpress/
