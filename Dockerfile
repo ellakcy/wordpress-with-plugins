@@ -1,9 +1,9 @@
-FROM wordpress
+FROM wordpress:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update &&\
-    apt-get install -y unzip mysql-client &&\
+    apt-get install -y unzip mysql-client git &&\
     rm -rf /var/cache/apt/*
 
 
@@ -25,3 +25,4 @@ ENV WORDPRESS_TITLE="My localhost site"
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/usr/bin/install-plugins.sh"]
+CMD /usr/sbin/apache2ctl -D FOREGROUND
