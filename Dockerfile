@@ -18,7 +18,7 @@ COPY docker-entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 ENV WORDPRESS_ADMIN_USERNAME='admin'
-ENV WORDPRESS_ADMIN_PASSWORD='admin'
+ENV WORDPRESS_ADMIN_PASSWORD='admin123'
 ENV WORDPRESS_ADMIN_EMAIL="admin@example.com"
 ENV WORDPRESS_URL="localhost"
 ENV WORDPRESS_TITLE="My localhost site"
