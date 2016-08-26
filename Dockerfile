@@ -24,5 +24,5 @@ ENV WORDPRESS_URL="localhost"
 ENV WORDPRESS_TITLE="My localhost site"
 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/usr/bin/install-plugins.sh"]
-CMD /usr/sbin/apache2ctl -D FOREGROUND
+CMD /usr/bin/install-plugins.sh &&\
+ /usr/sbin/apache2ctl -D FOREGROUND

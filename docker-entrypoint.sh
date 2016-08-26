@@ -128,6 +128,7 @@ $port = (int) $socket;
 $socket = null;
 }
 $maxTries = 10;
+echo "Try to conect to mysql\n";
 do {
 $mysql = new mysqli($host, $argv[2], $argv[3], '', $port, $socket);
 if ($mysql->connect_error) {
@@ -139,6 +140,8 @@ if ($mysql->connect_error) {
 	sleep(3);
 }
 } while ($mysql->connect_error);
+echo "Connected to Database\n";
+echo "Ganarating table\n";
 if (!$mysql->query('CREATE DATABASE IF NOT EXISTS `' . $mysql->real_escape_string($argv[4]) . '`')) {
 fwrite($stderr, "\n" . 'MySQL "CREATE DATABASE" Error: ' . $mysql->error . "\n");
 $mysql->close();
@@ -148,6 +151,9 @@ $mysql->close();
 EOPHP
 
 #Generate default user
+echo "Generating a default user."
 wp --path=/var/www/html --allow-root --admin_user="${WORDPRESS_ADMIN_USERNAME}" --admin_password="${WORDPRESS_ADMIN_PASSWORD}" --admin_email="${WORDPRESS_ADMIN_EMAIL}" --title="${WORDPRESS_TITLE}" --url="${WORDPRESS_URL}" core install
 
+echo "Executing 3rd party scripts."
 exec "$@"
+echo "3rd party scripts executed."
