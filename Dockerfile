@@ -1,4 +1,4 @@
-FROM wordpress:latest
+FROM wordpress:4.6
 MAINTAINER Dimitrios Desyllas (pc_magas@freemail.gr)
 
 ENV DEBIAN_FRONTEND=noninteractive
