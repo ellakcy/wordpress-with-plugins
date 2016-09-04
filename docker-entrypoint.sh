@@ -141,7 +141,7 @@ if ($mysql->connect_error) {
 }
 } while ($mysql->connect_error);
 echo "Connected to Database\n";
-echo "Ganarating table\n";
+echo "Genarating table\n";
 if (!$mysql->query('CREATE DATABASE IF NOT EXISTS `' . $mysql->real_escape_string($argv[4]) . '`')) {
 fwrite($stderr, "\n" . 'MySQL "CREATE DATABASE" Error: ' . $mysql->error . "\n");
 $mysql->close();
