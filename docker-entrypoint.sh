@@ -37,7 +37,8 @@ if ! [ -e index.php -a -e wp-includes/version.php ]; then
 			</IfModule>
 			# END WordPress
 		EOF
-		chown www-data:www-data .htaccess
+		chown www-data:www-data -R .
+		chown www-data:www-data -R .htaccess
 	fi
 fi
 
@@ -167,7 +168,8 @@ echo "Updating existing plugins and themes"
 wp --path=/var/www/html --allow-root plugin update-all
 wp --path=/var/www/html --allow-root theme update-all
 
-
+echo "Fixing Permissions"
+chown www-data:www-data -R .
 echo "Executing 3rd party scripts."
 exec "$@"
 echo "3rd party scripts executed."
