@@ -170,6 +170,10 @@ wp --path=/var/www/html --allow-root theme update-all
 
 echo "Fixing Permissions"
 chown www-data:www-data -R .
+
+#Installing 3rd party plugins
+/usr/bin/install-plugins.sh
+
 echo "Executing 3rd party scripts."
 exec "$@"
 echo "3rd party scripts executed."

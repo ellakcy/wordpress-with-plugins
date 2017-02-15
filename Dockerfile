@@ -1,4 +1,4 @@
-FROM wordpress:4.7.0
+FROM wordpress:4.7.2
 MAINTAINER Dimitrios Desyllas (pc_magas@freemail.gr)
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -25,5 +25,4 @@ ENV WORDPRESS_URL="localhost"
 ENV WORDPRESS_TITLE="My localhost site"
 
 ENTRYPOINT ["/entrypoint.sh"]
-CMD /usr/bin/install-plugins.sh &&\
- /usr/sbin/apache2ctl -D FOREGROUND
+CMD ["/usr/sbin/apache2ctl","-D","FOREGROUND"]
