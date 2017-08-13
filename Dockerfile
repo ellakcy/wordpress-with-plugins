@@ -9,17 +9,18 @@ ENV \
     WORDPRESS_TITLE="My localhost site"
 
 COPY install-plugins.sh /usr/local/bin/install-plugins.sh
-COPY ./wp_post_entrypoint.sh /usr/local/bin/wp_post_entrypoint
+COPY wp_post_entrypoint.sh /usr/local/bin/wp_post_entrypoint
+COPY docker_entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
-RUN apk add  --update --no-cache unzip mysql-client git curl &&\
+RUN chmod +x /usr/local/bin/install-plugins.sh &&\
+    chmod +x /usr/local/bin/wp_post_entrypoint &&\
+    chmod +x /usr/local/bin/docker-entrypoint.sh &&\
+    apk add  --update --no-cache unzip mysql-client git curl &&\
     cd /tmp && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && cd &&\
     chmod +x /tmp/wp-cli.phar &&\
     mv /tmp/wp-cli.phar /usr/local/bin/wp &&\
-    chmod +x /usr/local/bin/install-plugins.sh &&\
-    chmod +x /usr/local/bin/wp_post_entrypoint &&\
     apk del curl &&\
     rm -rf /var/cache/apk/*
 
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["/usr/local/bin/wp_post_entrypoint"]
 CMD ["php-fpm"]

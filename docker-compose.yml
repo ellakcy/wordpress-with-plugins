@@ -2,8 +2,6 @@ version: '2'
 services:
   wordpress-db:
     image: mariadb
-    volumes:
-     - './data/wordpress/db:/var/lib/mysql'
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       MYSQL_ONETIME_PASSWORD: "yes"
@@ -16,8 +14,6 @@ services:
       context: .
       dockerfile: Dockerfile
     image: ellakcy/wordpressswithplugins
-    volumes:
-      - './data/wordpress/www:/var/www/html'
     ports:
       - '9000:9000'
     links:
