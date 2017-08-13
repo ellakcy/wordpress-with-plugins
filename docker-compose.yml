@@ -1,0 +1,31 @@
+version: '2'
+services:
+  wordpress-db:
+    image: mariadb
+    volumes:
+     - './data/wordpress/db:/var/lib/mysql'
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_ONETIME_PASSWORD: "yes"
+      MYSQL_DATABASE: "wordpress"
+      MYSQL_USER: '${WORDPRESS_MYSQL_USER}'
+      MYSQL_PASSWORD: '${WORDPRESS_MYSQL_PASSWORD}'
+
+  wordpress:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ellakcy/wordpressswithplugins
+    volumes:
+      - './data/wordpress/www:/var/www/html'
+    ports:
+      - '9000:9000'
+    links:
+      - wordpress-db
+    environment:
+        WORDPRESS_DB_HOST: wordpress-db:/var/run/mysqld/mysqld.sock
+        WORDPRESS_DB_USER: '${WORDPRESS_MYSQL_USER}'
+        WORDPRESS_DB_PASSWORD: '${WORDPRESS_MYSQL_PASSWORD}'
+        WORDPRESS_ADMIN_USERNAME: '${WORDPRESS_ADMIN_USER}'
+        WORDPRESS_ADMIN_PASSWORD: '${WORDPRESS_ADMIN_PASSWORD}'
+        WORDPRESS_URL: '${WORDPRESS_URL}'
