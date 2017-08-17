@@ -8,7 +8,7 @@ In order to build it run:
 ```
 git clone ^this_repo^
 cd ^repo_folder^
-docker build --tag ^a name for your container^ --no-cache .
+docker-compose build --tag ^a name for your container^ --no-cache .
 ```
 ### Test run
 In order to run it try the following (for development & testing purpose only):
@@ -20,6 +20,12 @@ docker run --name ^an another name^ --net ^network_name^ --ip 172.12.0.2 --link 
 ```
 __NOTE:__
 The value WORDPRESS_URL is recomended to be website's url that the user will type on the browser. For **development** purpoce please use http://0.0.0.0:^mapped_port^
+
+Alternatively you can use docker-compose:
+
+```
+docker-compose up
+```
 
 ### Enviromentall variables  & configuration
 Supports these extra enviromental variables:
@@ -55,7 +61,7 @@ The minimal configutation for apache2 is to enaable:
 
 And create the following virtualhost.
 
-````
+```
 <VirtualHost *:80>
 
 ProxyPass /  ^container's ip^/
@@ -66,7 +72,7 @@ ProxyPassReverse  ^container's ip^/ /
 
 Or Alternatively (for development & testing purpose):
 
-````
+```
 <VirtualHost *:80>
 
 ProxyPass /somename  ^container's ip^/
@@ -75,7 +81,55 @@ ProxyPassReverse  ^container's ip^/ /somename
 </Virtualhost>
 ```
 
-Note that the value that replaces ^sites' url or container's ip^ must be a valid url starting with http or https and ending with / (in order for assets to work)
+Note that the value that replaces ^sites' url^ or ^container's ip^ must be a valid url starting with http or https and ending with / (in order for assets to work)
+
+
+### Using Nginx as reverse proxy
+
+For production use the following settings (with ssl redirection)
+
+```
+server {
+	listen 80;
+	server_name ^site_url^;
+
+	rewrite ^ https://$server_name$request_uri? permanent;
+}
+
+server {
+
+	listen 443 ssl;
+  ssl_certificate  ^certificate_path^; # managed by Certbot
+  ssl_certificate_key ^certificate_key^; # managed by Certbot
+  ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+  ssl_ciphers         HIGH:!aNULL:!MD5;
+
+  server_name ^site_url^;
+
+
+	location / {
+		error_page 502 /502.html;
+
+		proxy_http_version 1.1;
+       		proxy_set_header Upgrade $http_upgrade;
+       		proxy_set_header Connection 'upgrade';
+       		proxy_set_header Host $host;
+       		proxy_set_header X-Real-IP $remote_addr;
+       		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+       		proxy_set_header X-Forwarded-Proto $scheme;
+       		proxy_cache_bypass $http_upgrade;
+
+        	proxy_pass ^container's ip^;
+	}
+
+	location = /502.html{
+		root /var/www/ellak.org;
+	}
+}
+
+```
+
+Note that the value that replaces ^sites' url^ or ^container's ip^ must be a valid url starting with http or https and ending with / (in order for assets to work)
 
 ### Further Deployment notes
 
