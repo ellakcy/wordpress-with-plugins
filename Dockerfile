@@ -20,7 +20,15 @@ RUN chmod +x /usr/local/bin/install-plugins.sh &&\
     chmod +x /tmp/wp-cli.phar &&\
     mv /tmp/wp-cli.phar /usr/local/bin/wp &&\
     apk del curl &&\
-    rm -rf /var/cache/apk/*
+    rm -rf /var/cache/apk/* &&\
+    mkdir /etc/nginx/conf.d/ &&\
+    mkdir /etc/nginx/sites-available/ &&\
+    touch /etc/nginx/conf.d/wordpress.conf &&\
+    chmod +w /etc/nginx/conf.d/wordpress.conf &&\
+    ln -s  /etc/nginx/conf.d/wordpress.conf /etc/nginx/sites-available/wordpress.conf
+
+VOLUME /etc/nginx/conf.d/wordpress.conf
+VOLUME /etc/nginx/sites-available/wordpress.conf
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["php-fpm"]

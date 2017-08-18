@@ -1,5 +1,16 @@
 version: '2'
 services:
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      -8090:80
+    links:
+      - wordpress
+    volumes-from:
+      - "/var/www/wordpress:wordpress:/var/www/data:ro"
+      - "/etc/nginx/conf.d/wordpress.conf:wordpress:/etc/nginx/conf.d/wordpress.conf"
+
   wordpress-db:
     image: mariadb
     environment:
