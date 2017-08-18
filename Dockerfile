@@ -7,7 +7,7 @@ ENV \
     WORDPRESS_ADMIN_EMAIL="admin@example.com" \
     WORDPRESS_URL="localhost" \
     WORDPRESS_TITLE="My localhost site"
-    
+
 COPY install-plugins.sh /usr/local/bin/install-plugins.sh
 COPY wp_post_entrypoint.sh /usr/local/bin/wp_post_entrypoint
 COPY docker_entrypoint.sh /usr/local/bin/docker-entrypoint.sh
@@ -20,16 +20,7 @@ RUN chmod +x /usr/local/bin/install-plugins.sh &&\
     chmod +x /tmp/wp-cli.phar &&\
     mv /tmp/wp-cli.phar /usr/local/bin/wp &&\
     apk del curl &&\
-    rm -rf /var/cache/apk/* &&\
-    mkdir -p /etc/nginx/conf.d/ &&\
-    mkdir -p /etc/nginx/sites-available/ &&\
-    ln -s  /etc/nginx/conf.d/ /etc/nginx/sites-available
-
-# For alpine based-nginx
-VOLUME /etc/nginx/conf.d/
-
-# For debian based
-VOLUME /etc/nginx/sites-available/
-
+    rm -rf /var/cache/apk/*
+    
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["php-fpm"]

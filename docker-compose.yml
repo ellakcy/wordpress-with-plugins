@@ -4,6 +4,8 @@ services:
     image: nginx:alpine
     ports:
       - "8080:80"
+    volumes:
+      - './conf/nginx/:/etc/nginx/conf.d/:ro'
     links:
       - "wordpress"
     volumes_from:

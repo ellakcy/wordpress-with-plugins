@@ -2,6 +2,9 @@
 
 WORDPRESS_PATH="/var/www/html"
 
+echo "Fixinf permissions"
+find ${WORDPRESS_PATH} -iname "*.php" | xargs chmod +x
+
 #Generate default user
 if [ ! $(wp --path=${WORDPRESS_PATH} --allow-root core is-installed)]; then
  echo "Generating a default user."
