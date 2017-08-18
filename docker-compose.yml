@@ -1,15 +1,13 @@
 version: '2'
 services:
-
   nginx:
     image: nginx:alpine
     ports:
-      -8090:80
+      - "8080:80"
     links:
-      - wordpress
-    volumes-from:
-      - "/var/www/wordpress:wordpress:/var/www/data:ro"
-      - "/etc/nginx/conf.d/wordpress.conf:wordpress:/etc/nginx/conf.d/wordpress.conf"
+      - "wordpress"
+    volumes_from:
+      - "wordpress:ro"
 
   wordpress-db:
     image: mariadb
@@ -24,9 +22,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ellakcy/wordpressswithplugins
-    ports:
-      - '9000:9000'
+    image: ellakcy/wordpressswithplugins:alpine
     links:
       - wordpress-db
     environment:
