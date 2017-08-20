@@ -11,17 +11,17 @@ ENV \
 
 COPY install-plugins.sh /usr/local/bin/install-plugins.sh
 COPY wp_post_entrypoint.sh /usr/local/bin/wp_post_entrypoint
-COPY docker_entrypoint_apache.sh /usr/local/bin/docker-entrypoint.sh
+COPY docker_entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 RUN chmod +x /usr/local/bin/install-plugins.sh &&\
     chmod +x /usr/local/bin/wp_post_entrypoint &&\
     chmod +x /usr/local/bin/docker-entrypoint.sh &&\
     apt-get update &&\
-    apt-get install -y unzip git &&\
+    apt-get install -y git &&\
     rm -rf /var/cache/apt/* &&\
     cd /tmp && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && cd &&\
     chmod +x /tmp/wp-cli.phar &&\
     mv /tmp/wp-cli.phar /usr/local/bin/wp
 
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
-CMD ["/usr/sbin/apache2ctl","-D","FOREGROUND"]
+CMD ["apache2-foreground"]

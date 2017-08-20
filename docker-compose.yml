@@ -58,7 +58,7 @@ services:
     ports:
       - "80:8082"
     environment:
-        WORDPRESS_DB_HOST: wordpress-db:/var/run/mysqld/mysqld.sock
+        WORDPRESS_DB_HOST: wordpress-apache-db:/var/run/mysqld/mysqld.sock
         WORDPRESS_DB_USER: '${WORDPRESS_MYSQL_USER}'
         WORDPRESS_DB_PASSWORD: '${WORDPRESS_MYSQL_PASSWORD}'
         WORDPRESS_ADMIN_USERNAME: '${WORDPRESS_ADMIN_USER}'

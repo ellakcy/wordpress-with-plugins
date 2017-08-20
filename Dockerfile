@@ -10,7 +10,7 @@ ENV \
 
 COPY install-plugins.sh /usr/local/bin/install-plugins.sh
 COPY wp_post_entrypoint.sh /usr/local/bin/wp_post_entrypoint
-COPY docker_entrypoint_fpm.sh /usr/local/bin/docker-entrypoint.sh
+COPY docker_entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 RUN chmod +x /usr/local/bin/install-plugins.sh &&\
     chmod +x /usr/local/bin/wp_post_entrypoint &&\
