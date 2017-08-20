@@ -22,5 +22,7 @@ RUN chmod +x /usr/local/bin/install-plugins.sh &&\
     apk del curl &&\
     rm -rf /var/cache/apk/*
 
+EXPOSE 9000
+
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["php-fpm"]

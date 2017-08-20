@@ -2,14 +2,11 @@
 
 WORDPRESS_PATH="/var/www/html"
 
-cat ${WORDPRESS_PATH}/wp-config.php
-
 #Generate default user
 if [ ! $(wp --path=${WORDPRESS_PATH} --allow-root core is-installed)]; then
  echo "Generating a default user."
  wp --path=${WORDPRESS_PATH} --allow-root --admin_user="${WORDPRESS_ADMIN_USERNAME}" --admin_password="${WORDPRESS_ADMIN_PASSWORD}" --admin_email="${WORDPRESS_ADMIN_EMAIL}" --title="${WORDPRESS_TITLE}" --url="${WORDPRESS_URL}" core install
 fi
-
 
 version=$(wp --path=${WORDPRESS_PATH} --allow-root core version)
 wp --path=${WORDPRESS_PATH} --allow-root core check-update --format=count --fields=version

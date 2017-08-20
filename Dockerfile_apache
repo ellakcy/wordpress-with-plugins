@@ -23,5 +23,7 @@ RUN chmod +x /usr/local/bin/install-plugins.sh &&\
     chmod +x /tmp/wp-cli.phar &&\
     mv /tmp/wp-cli.phar /usr/local/bin/wp
 
+EXPOSE 80
+
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["apache2-foreground"]
