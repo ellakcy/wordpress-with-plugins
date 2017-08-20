@@ -2,6 +2,8 @@
 
 WORDPRESS_PATH="/var/www/html"
 
+ls -l ${WORDPRESS_PATH}
+
 #Generate default user
 if [ ! $(wp --path=${WORDPRESS_PATH} --allow-root core is-installed)]; then
  echo "Generating a default user."
@@ -12,11 +14,11 @@ echo "define('WP_HOME', '${WORDPRESS_PATH}');" >> ${WORDPRESS_PATH}/wp-config.ph
 echo "define('WP_SITEURL','$WORDPRESS_PATH');" >> ${WORDPRESS_PATH}/wp-config.php
 
 version=$(wp --path=${WORDPRESS_PATH} --allow-root core version)
-
-if [ $version != ${WORDPRESS_VERSION} ]; then
-	echo "Outdated version try to update"
-	wp --path=${WORDPRESS_PATH} --allow-root core update
-fi
+wp --path=${WORDPRESS_PATH} --allow-root core check-update --format=count --fields=version
+# if [ $version != ${WORDPRESS_VERSION} ]; then
+# 	echo "Outdated version try to update"
+# 	wp --path=${WORDPRESS_PATH} --allow-root core update
+# fi
 
 echo "Updating existing plugins and themes"
 wp --path=${WORDPRESS_PATH} --allow-root plugin update-all

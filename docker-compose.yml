@@ -26,7 +26,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ellakcy/wordpressswithplugins:alpine
+    image: ellakcy/wordpressswithplugins:alpine-fpm
     links:
       - wordpress-db
     environment:
@@ -36,3 +36,31 @@ services:
         WORDPRESS_ADMIN_USERNAME: '${WORDPRESS_ADMIN_USER}'
         WORDPRESS_ADMIN_PASSWORD: '${WORDPRESS_ADMIN_PASSWORD}'
         WORDPRESS_URL: '${WORDPRESS_URL}'
+
+# Apache Build
+
+  wordpress-apache-db:
+    image: mariadb
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_ONETIME_PASSWORD: "yes"
+      MYSQL_DATABASE: "wordpress"
+      MYSQL_USER: '${WORDPRESS_MYSQL_USER}'
+      MYSQL_PASSWORD: '${WORDPRESS_MYSQL_PASSWORD}'
+
+  wordpress_apache:
+    build:
+      context: .
+      dockerfile: Dockerfile_apache
+    image: ellakcy/wordpressswithplugins:apache
+    links:
+      - wordpress-apache-db
+    ports:
+      - "80:8082"
+    environment:
+        WORDPRESS_DB_HOST: wordpress-db:/var/run/mysqld/mysqld.sock
+        WORDPRESS_DB_USER: '${WORDPRESS_MYSQL_USER}'
+        WORDPRESS_DB_PASSWORD: '${WORDPRESS_MYSQL_PASSWORD}'
+        WORDPRESS_ADMIN_USERNAME: '${WORDPRESS_ADMIN_USER}'
+        WORDPRESS_ADMIN_PASSWORD: '${WORDPRESS_ADMIN_PASSWORD}'
+        WORDPRESS_URL: '${WORDPRESS_APACHE_URL}'

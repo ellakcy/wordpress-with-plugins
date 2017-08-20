@@ -1,4 +1,4 @@
-FROM wordpress:php7.0-fpm-alpine
+FROM wordpress:php7.0-apache
 MAINTAINER Dimitrios Desyllas (pc_magas@openmailbox.org)
 
 ENV \
@@ -6,21 +6,22 @@ ENV \
     WORDPRESS_ADMIN_PASSWORD='admin123' \
     WORDPRESS_ADMIN_EMAIL="admin@example.com" \
     WORDPRESS_URL="localhost" \
-    WORDPRESS_TITLE="My localhost site"
+    WORDPRESS_TITLE="My localhost site" \
+    DEBIAN_FRONTEND=noninteractive
 
 COPY install-plugins.sh /usr/local/bin/install-plugins.sh
 COPY wp_post_entrypoint.sh /usr/local/bin/wp_post_entrypoint
-COPY docker_entrypoint_fpm.sh /usr/local/bin/docker-entrypoint.sh
+COPY docker_entrypoint_apache.sh /usr/local/bin/docker-entrypoint.sh
 
 RUN chmod +x /usr/local/bin/install-plugins.sh &&\
     chmod +x /usr/local/bin/wp_post_entrypoint &&\
     chmod +x /usr/local/bin/docker-entrypoint.sh &&\
-    apk add  --update --no-cache unzip mysql-client git curl &&\
+    apt-get update &&\
+    apt-get install -y unzip git &&\
+    rm -rf /var/cache/apt/* &&\
     cd /tmp && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && cd &&\
     chmod +x /tmp/wp-cli.phar &&\
-    mv /tmp/wp-cli.phar /usr/local/bin/wp &&\
-    apk del curl &&\
-    rm -rf /var/cache/apk/*
+    mv /tmp/wp-cli.phar /usr/local/bin/wp
 
-ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["php-fpm"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+CMD ["/usr/sbin/apache2ctl","-D","FOREGROUND"]
