@@ -3,13 +3,35 @@
 ## Built & run
 
 ### Building commands
-In order to build it run:
+
+#### Building without docker compose
+
+In order to build it use theese steps:
 
 ```
 git clone ^this_repo^
 cd ^repo_folder^
-docker-compose build --tag ^a name for your container^ --no-cache .
+# Build for alpine & fpm image
+docker build --tag ^a name for your container^ -f Dockerfile  --no-cache .
+# Build for apache image
+docker build --tag ^a name for your container^ -f Dockerfile_apache  --no-cache .
 ```
+
+#### Using docker-compose
+
+In order to build it use theese steps:
+
+```
+git clone ^this_repo^
+cd ^repo_folder^
+# Build for alpine & fpm image
+docker-compose build --no-cache wordpress
+# Build for apache image
+docker-compose build --no-cache wordpress_apache
+```
+
+
+
 ### Test run
 In order to run it try the following (for development & testing purpose only):
 
