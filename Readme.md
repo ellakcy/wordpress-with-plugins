@@ -30,8 +30,6 @@ docker-compose build --no-cache wordpress
 docker-compose build --no-cache wordpress_apache
 ```
 
-
-
 ### Test run
 In order to run it try the following (for development & testing purpose only):
 
