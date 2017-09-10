@@ -1,5 +1,7 @@
 version: '2'
 services:
+
+  # Alpine and Fpm based images
   nginx:
     image: nginx:alpine
     ports:

@@ -1,17 +1,18 @@
 #!/bin/bash
 
 WORDPRESS_PATH="/var/www/html"
+COMMAND="wp --allow-root --path=${WORDPRESS_PATH}"
 
 WORDPRESS_URL=$(php -r "echo preg_replace('#^http?://|\"|\'#', '', rtrim('${WORDPRESS_URL}','/'));")
 #Generate default user
-if [ ! $(wp --path=${WORDPRESS_PATH} --allow-root core is-installed)]; then
+if [ ! $(${COMMAND} core is-installed) ]; then
  echo "Generating a default user."
- wp --path=${WORDPRESS_PATH} --allow-root --admin_user="${WORDPRESS_ADMIN_USERNAME}" --admin_password="${WORDPRESS_ADMIN_PASSWORD}" --admin_email="${WORDPRESS_ADMIN_EMAIL}" --title="${WORDPRESS_TITLE}" --url="${WORDPRESS_URL}" core install
+ ${COMMAND} --admin_user="${WORDPRESS_ADMIN_USERNAME}" --admin_password="${WORDPRESS_ADMIN_PASSWORD}" --admin_email="${WORDPRESS_ADMIN_EMAIL}" --title="${WORDPRESS_TITLE}" --url="${WORDPRESS_URL}" core install
 fi
 
 echo "Updating existing plugins and themes"
-wp --path=${WORDPRESS_PATH} --allow-root plugin update-all
-wp --path=${WORDPRESS_PATH} --allow-root theme update-all
+${COMMAND} plugin update-all
+${COMMAND}t theme update-all
 
 echo "Fixing Permissions"
 chown www-data:www-data -R .

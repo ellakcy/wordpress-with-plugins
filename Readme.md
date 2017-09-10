@@ -30,7 +30,10 @@ docker-compose build --no-cache wordpress
 docker-compose build --no-cache wordpress_apache
 ```
 
-### Test run
+### Run and deploy
+
+## For testing & contribution to this project
+
 In order to run it try the following (for development & testing purpose only):
 
 ```
@@ -47,6 +50,10 @@ Alternatively you can use docker-compose:
 docker-compose up
 ```
 
+## For production
+
+Please have a look on: https://github.com/ellakcy/wordpress-with-plugins-deployment-recipe
+
 ### Enviromentall variables  & configuration
 Supports these extra enviromental variables:
 
@@ -55,7 +62,7 @@ Variable Name | Defalt Value | Description
 WORDPRESS_ADMIN_USERNAME | *admin* | The username of the admin user
 WORDPRESS_ADMIN_PASSWORD | *admin123* | The password of the admin user. __PLEASE DO CHANGE WHEN ON PRODUCTION__.
 WORDPRESS_ADMIN_EMAIL | *admin@example.com* | The administrator email. (Recomended to change.)
-WORDPRESS_URL | * localhost* | Your site's url. __PLEASE SET AS CONTAINERS IP. TESTED WITH THAT__
+WORDPRESS_URL | *localhost* | Your site's url. __PLEASE SET AS CONTAINERS IP. TESTED WITH THAT__
 WORDPRESS_TITLE | *My localhost site* | The title to be displayed when generating the site.
 
 Also inherits all the enviromental varialbes from the original wordpress docker image: https://hub.docker.com/_/wordpress/
@@ -63,17 +70,19 @@ Also inherits all the enviromental varialbes from the original wordpress docker 
 __NOTE:__
 `WORDPRESS_ADMIN_USERNAME` must have a __DIFFERENT__ value from __WORDPRESS_ADMIN_PASSWORD__ in order to be able to login to wordpress dashboard.
 
-## Recomended Testing & Reverse proxy settting for depployment
+## Recomended Running Testing & Reverse proxy settting for deployment
 
 ### Testing via browser __WITHOUT__ proxy:
 
 On you terminal type:
 
-> docker inspect ^container name or hash^
+```
+docker inspect ^container name or hash^
+```
 
 And on the json that has been output look for `"IPAddress"` visit this ip addresss to your borwser and it will work (with broken urls for assets)
 
-### Using apache2 as reverse proxy: (Recomended way)
+### Using apache2 as reverse proxy:
 
 The best way to test it is to use apache2 (or another web server or web proxy) in order to achieve a multi purpose testing and deployment bedrock.
 

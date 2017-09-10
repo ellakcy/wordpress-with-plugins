@@ -1,5 +1,5 @@
 FROM wordpress:php7.0-fpm-alpine
-MAINTAINER Dimitrios Desyllas (pc_magas@openmailbox.org)
+MAINTAINER Dimitrios Desyllas (pcmagas@disroot.org)
 
 ENV \
     WORDPRESS_ADMIN_USERNAME='admin' \

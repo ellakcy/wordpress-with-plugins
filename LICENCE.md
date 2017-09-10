@@ -1,5 +1,5 @@
     Wordpress Docker Container with Preinstalled plugins
-    Copyright (C) 2016-2017 Cypriot Free Software Community ELLAK
+    Copyright (C) 2017-2018 Cypriot Free Software Community ELLAK
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
