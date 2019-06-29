@@ -16,6 +16,7 @@ RUN chmod +x /usr/local/bin/install-plugins.sh &&\
     chmod +x /usr/local/bin/wp_post_entrypoint &&\
     chmod +x /usr/local/bin/docker-entrypoint.sh &&\
     apk add  --update --no-cache unzip mysql-client git curl &&\
+    apk add sudo &&\
     cd /tmp && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && cd &&\
     chmod +x /tmp/wp-cli.phar &&\
     mv /tmp/wp-cli.phar /usr/local/bin/wp &&\
