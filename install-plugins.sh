@@ -1,5 +1,5 @@
 #!/bin/bash
-COMMAND='wp --allow-root --path=/var/www/html'
+COMMAND="sudo -u www-data wp --path=${WORDPRESS_PATH}"
 echo "Installing plugins and themes"
 
 #Append below for the plugin installation

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 WORDPRESS_PATH="/var/www/html"
-COMMAND="wp --allow-root --path=${WORDPRESS_PATH}"
+COMMAND="sudo -u www-data wp --path=${WORDPRESS_PATH}"
 
 WORDPRESS_URL=$(php -r "echo preg_replace('#^http?://|\"|\'#', '', rtrim('${WORDPRESS_URL}','/'));")
 #Generate default user
@@ -18,7 +18,7 @@ echo "Fixing Permissions"
 chown www-data:www-data -R .
 find ${WORDPRESS_PATH} -iname "*.php" | xargs chmod +x
 
-site_url=$(wp option get siteurl)
+site_url=$(${COMMAND} option get siteurl)
 echo "Your site will be served via: "${site_url}
 
 #Installing 3rd party plugins
