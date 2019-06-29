@@ -189,7 +189,7 @@ $user = getenv('WORDPRESS_DB_USER');
 $pass = getenv('WORDPRESS_DB_PASSWORD');
 $dbName = getenv('WORDPRESS_DB_NAME');
 
-$maxTries = 100;
+$maxTries = 1000;
 do {
 	$mysql = new mysqli($host, $user, $pass, '', $port, $socket);
 	if ($mysql->connect_error) {
@@ -198,7 +198,7 @@ do {
 		if ($maxTries <= 0) {
 			exit(1);
 		}
-		sleep(10);
+		sleep(100);
 	}
 } while ($mysql->connect_error);
 

@@ -20,7 +20,7 @@ services:
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       MYSQL_ONETIME_PASSWORD: "yes"
-      MYSQL_DATABASE: "wordpress"
+      MYSQL_DATABASE: wordpress
       MYSQL_USER: ${WORDPRESS_MYSQL_USER}
       MYSQL_PASSWORD: ${WORDPRESS_MYSQL_PASSWORD}
 
@@ -30,6 +30,8 @@ services:
       dockerfile: Dockerfile
     image: ellakcy/wordpressswithplugins:alpine-fpm
     links:
+      - wordpress_fpm_db
+    depends_on:
       - wordpress_fpm_db
     environment:
         WORDPRESS_DB_HOST: wordpress_fpm_db
@@ -46,7 +48,7 @@ services:
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       MYSQL_ONETIME_PASSWORD: "yes"
-      MYSQL_DATABASE: "wordpress"
+      MYSQL_DATABASE: wordpress
       MYSQL_USER: ${WORDPRESS_MYSQL_USER}
       MYSQL_PASSWORD: ${WORDPRESS_MYSQL_PASSWORD}
 
@@ -56,6 +58,8 @@ services:
       dockerfile: Dockerfile_apache
     image: ellakcy/wordpressswithplugins:apache
     links:
+      - wordpress_apache_db
+    depends_on:
       - wordpress_apache_db
     ports:
       - "7071:80"
